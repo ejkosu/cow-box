@@ -1,0 +1,13 @@
+// Import the initial variables
+@charset "utf-8";
+@import "/node_modules/bulma/sass/utilities/initial-variables.sass";
+
+// Set custom initial variables
+$primary: #00a199;
+
+// Import the rest of framework
+@import "/node_modules/bulma/bulma.sass";
+
+body {
+    background-color: $primary !important;
+}
