@@ -3,7 +3,10 @@
 @import "/node_modules/bulma/sass/utilities/initial-variables.sass";
 
 // Set custom initial variables
+$light: #f4f4f4;
 $primary: #00a199;
+$navbar-item-img-max-height: 5rem;
+$tablet: 790px;
 
 // Import the rest of framework
 @import "/node_modules/bulma/bulma.sass";
@@ -11,4 +14,36 @@ $primary: #00a199;
 html {
     background: #e4e4e4 url("/src/images/texture.png");
     overflow-y: auto;
+}
+
+// Navbar
+#nav-logo {
+    height: 64px;
+    width: 64px;
+}
+
+#nav-title {
+    font-family: "Rye", sans-serif;
+    padding-left: 0;
+}
+
+.navbar-item a {
+    color: $black-bis;
+}
+
+.navbar-item a.active {
+    color: $primary;
+}
+
+@media (min-width: $tablet) {
+    .navbar-burger {
+        margin-top: 1rem !important;
+    }
+}
+
+@media (max-width: $tablet - 1) {
+    #nav-logo {
+        height: 32px;
+        width: 32px;
+    }
 }
