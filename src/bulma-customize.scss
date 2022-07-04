@@ -8,6 +8,7 @@ $primary: #00a199;
 // Import the rest of framework
 @import "/node_modules/bulma/bulma.sass";
 
-body {
-    background-color: $primary !important;
+html {
+    background: #e4e4e4 url("/src/images/texture.png");
+    overflow-y: auto;
 }
