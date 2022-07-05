@@ -18,7 +18,7 @@ function FileSelect() {
     <div id="file-select" className="container">
       {/* SELECT BUTTON */}
       <label>
-        <div className="select-button is-size-3 is-unselectable">
+        <div id="select-button" className="is-size-3 is-unselectable">
           Select Files
         </div>
         <input
