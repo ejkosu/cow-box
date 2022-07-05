@@ -1,9 +1,14 @@
+import { Fragment } from 'react'
+import HelloMessage from './Home/HelloMessage'
+import FileSelect from './Home/FileSelect'
+
 function Home() {
-    return (
-      <div id="home">
-        <p>Hello home</p>
-      </div>
-    )
-  }
+  return (
+    <Fragment>
+      <HelloMessage />
+      <FileSelect />
+    </Fragment>
+  )
+}
   
-  export default Home
+export default Home

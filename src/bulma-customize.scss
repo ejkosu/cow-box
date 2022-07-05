@@ -52,3 +52,13 @@ html {
 .question {
     padding-top: 1.5rem;
 }
+
+// HelloMessage
+#hello {
+    padding: 1.5rem 1rem;
+}
+
+// FileSelect
+#file-select input[type="file"] {
+    display: none;
+}
