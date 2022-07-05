@@ -18,7 +18,7 @@ function Navbar() {
               id="nav-title"
               className="navbar-item is-size-2 is-size-4-mobile is-unselectable"
             >
-              Pizza-Box
+              Cow-Box
             </div>
 
             {/* BURGER MENU */}

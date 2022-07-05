@@ -19,7 +19,7 @@ html {
 // Navbar
 #nav-logo {
     height: 64px;
-    width: 64px;
+    width: 85px;
 }
 
 #nav-title {
@@ -44,6 +44,11 @@ html {
 @media (max-width: $tablet - 1) {
     #nav-logo {
         height: 32px;
-        width: 32px;
+        width: 43px;
     }
+}
+
+// About
+.question {
+    padding-top: 1.5rem;
 }
