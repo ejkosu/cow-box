@@ -5,12 +5,18 @@ function FileSelect() {
     console.log(e);
   }
 
-  const fileObjects = [
+  const uploads = [
     {
-      fileName: "abc.jpg"
+      name: "abc.jpg",
+      isTooLarge: false,
+      failure: false,
+      success: false
     },
     {
-      fileName: "def.jpg"
+      name: "def.jpg",
+      isTooLarge: false,
+      failure: false,
+      success: false
     }
   ]
 
@@ -30,9 +36,10 @@ function FileSelect() {
 
       {/* UPLOAD BOXES */}
       <div className="columns is-multiline">
-        {fileObjects.map((f) =>
+        {uploads.map((u) =>
           <UploadBox
-            key={f.fileName}
+            key={u.name}
+            upload={u}
           />
         )}
       </div>
