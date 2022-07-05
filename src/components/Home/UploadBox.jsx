@@ -14,9 +14,9 @@ function UploadBox(props) {
   }
 
   // Copy the URL to the clipboard
-  const inputEl = useRef(null);
+  const urlRef = useRef(null);
   function copyUrl() {
-    inputEl.current.select();
+    urlRef.current.select();
     document.execCommand("copy");
   }
 
@@ -29,7 +29,6 @@ function UploadBox(props) {
           className="upload-name is-size-5 has-text-black-bis"
           readOnly
           value="upload.name"
-          ref={inputEl}
         />
 
         {/* UPLOAD MESSAGE */}
@@ -54,6 +53,13 @@ function UploadBox(props) {
             >
               Copy Link
             </button>
+            <input
+              type="text"
+              aria-hidden="true"
+              readOnly
+              ref={urlRef}
+              value={props.upload.url}
+            />
           </Fragment>
         }
       </div>

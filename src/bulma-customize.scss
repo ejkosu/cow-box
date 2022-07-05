@@ -93,3 +93,31 @@ html {
         padding: 1rem 1.5rem;
     }
 }
+
+// UploadBox
+.upload-box {
+    background-color: $white;
+    padding-bottom: 1rem;
+}
+
+.upload-name {
+    background-color: $white;
+    border-color: $grey-light;
+    border-radius: 4px;
+    border-width: 2px;
+    box-sizing: border-box;
+    max-width: 100% !important;
+    overflow: hidden;
+    padding-left: 4px;
+    text-overflow: clip;
+    white-space: nowrap;
+    width: 100% !important;
+}
+
+input[aria-hidden="true"] {
+    opacity: 0;
+    height: 0;
+    width: 0;
+    z-index: -99;
+    pointer-events: none;
+}

@@ -10,13 +10,15 @@ function FileSelect() {
       name: "abc.jpg",
       isTooLarge: false,
       failure: false,
-      success: false
+      success: false,
+      url: "https://12svsdvswvwv3.com"
     },
     {
       name: "def.jpg",
       isTooLarge: false,
       failure: false,
-      success: false
+      success: false,
+      url: "https://12svsdvswvwv3.com"
     }
   ]
 
