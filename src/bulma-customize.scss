@@ -98,6 +98,17 @@ html {
 .upload-box {
     background-color: $white;
     padding-bottom: 1rem;
+    animation: fadein .3s linear forwards;
+}
+
+@-webkit-keyframes fadein {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+    
+@keyframes fadein {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 .upload-name {
@@ -120,4 +131,24 @@ input[aria-hidden="true"] {
     width: 0;
     z-index: -99;
     pointer-events: none;
+}
+
+progress {
+    margin-bottom: 1.25rem;
+    margin-top: 0.5rem;
+}
+
+.upload-message {
+    padding-bottom: 0.5rem;
+    padding-left: 6px;
+    padding-top: 0.5rem;
+}
+
+.failure {
+    margin-bottom: 2.25rem;
+}
+
+.open-button {
+    margin-right: 0.5rem;
+    margin-bottom: 0.25rem;
 }

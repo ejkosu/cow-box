@@ -3,13 +3,13 @@ import { useRef, Fragment } from 'react'
 function UploadBox(props) {
   // Determine which message to show
   let uploadMsg = '';
-  if (props.upload.isTooLarge) {
+  if (props.isTooLarge) {
     uploadMsg = 'Error: file exceeds 20 MB.';
-  } else if (props.upload.failure) {
+  } else if (props.failure) {
     uploadMsg = 'Error uploading.';
-  } else if (props.upload.success) {
+  } else if (props.success) {
     uploadMsg = 'Upload complete.';
-  } else if (props.upload.name) {
+  } else if (props.name) {
     uploadMsg = 'Uploading...';
   }
 
@@ -32,18 +32,21 @@ function UploadBox(props) {
         />
 
         {/* UPLOAD MESSAGE */}
-        <p className={`upload-message is-size-5 has-text-black-bis ${props.upload.failure ? failed : ''}`}>
+        <p className={`upload-message is-size-5 has-text-black-bis ${props.failure ? failed : ''}`}>
           {uploadMsg}
+          {!props.failure && !props.success && 
+            <progress className="progress is-small is-primary" />
+          }
         </p>
 
         {/* BUTTONS */}
-        {!props.upload.failure &&
+        {props.success &&
           <Fragment>
             <a
               role="button"
-              href="props.upload.url"
+              href={props.url}
               target="_blank"
-              className="open-button is-primary is-outlined is-size-6 open-file"
+              className="open-button button is-primary is-outlined is-size-6"
             >
               Open File
             </a>
@@ -58,7 +61,7 @@ function UploadBox(props) {
               aria-hidden="true"
               readOnly
               ref={urlRef}
-              value={props.upload.url}
+              value={props.url}
             />
           </Fragment>
         }
