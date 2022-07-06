@@ -34,7 +34,7 @@ function UploadBox(props) {
         body: formData
       }).then(response => response.json()
       ).then(json => {
-        const fileUrl = baseUrl + json.fileUrl;
+        const fileUrl = baseUrl + "/" + json.fileUrl;
         setMessage('Upload complete.');
         setSuccess(true);
         setUrl(fileUrl);
@@ -53,7 +53,7 @@ function UploadBox(props) {
           type="text"
           className="upload-name is-size-5 has-text-black-bis"
           readOnly
-          value="upload.name"
+          value={props.file.name}
         />
 
         {/* UPLOAD MESSAGE */}
@@ -69,7 +69,7 @@ function UploadBox(props) {
           <Fragment>
             <a
               role="button"
-              href={props.url}
+              href={url}
               target="_blank"
               className="open-button button is-primary is-outlined is-size-6"
             >

@@ -77,6 +77,7 @@ function FileSelect() {
         </div>
         <input
           type="file"
+          name="upload"
           multiple
           onChange={handleFileChange}
         />
