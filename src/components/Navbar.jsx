@@ -10,7 +10,7 @@ function Navbar() {
         <div className="navbar-brand">
           {/* LOGO */}
           <div className="navbar-item">
-            <img id="nav-logo" src="/src/images/logo.png" />
+            <img id="nav-logo" src="/public/logo.png" />
           </div>
 
           {/* TITLE */}
