@@ -3,7 +3,6 @@ const path = require("path");
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const mime = require('mime-types');
 
 const app = express();
 
@@ -11,7 +10,7 @@ const app = express();
 app.use(fileUpload({
     createParentPath: true,
     safeFileNames: true,
-    preserveExtension: 255
+    preserveExtension: 200
 }));
 app.use(cors());
 app.use(bodyParser.json());
@@ -37,29 +36,31 @@ app.get("/*", (_req, res) => {
 app.post("/upload", (req, res) => {
     try {
         if (!req.files) {
-            res.send({
-                status: false,
+            res.status(400).send({
                 message: 'No file uploaded'
             });
         }
-
-        console.log(req.files.upload);
-        console.log(mime.extension(req.files.upload.mimetype));
 
         // Get file extension
         let regex = /\.[0-9a-z\.]+$/i;
         let extension = req.files.upload.name.match(regex);
         console.log(`extension: ${extension}`);
 
+        // Check if blacklisted
+        let blacklist = [".exe", ".jar", ".cpl", ".scr"];
+        if (blacklist.includes(extension)) {
+            res.status(400).send({
+                message: 'Invalid file'
+            });
+        }
+
         // Generate hash
         let hash = getHash();
         let newName = hash + extension;
         console.log(`newName: ${newName}`);
 
-        // Insert into DB. If hash collision, generate another
-
+        // Save to disk
         let file = req.files.upload;
-
         file.mv('./uploads/' + newName);
 
         res.send({
@@ -80,18 +81,8 @@ function getHash() {
     for (let i = 0; i < 10; i++) {
         hash += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-
     return hash;
 };
-
-// Save file to disk
-function saveFile() {
-    // Validate / sanitize
-
-    // Create unique hash and store in Postgres
-
-    // Return a success code and URL in array []
-}
 
 const { PORT = 5000 } = process.env;
 
