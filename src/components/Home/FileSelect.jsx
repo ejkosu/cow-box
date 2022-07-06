@@ -7,7 +7,15 @@ function FileSelect() {
 
   // Add files to the state array
   function handleFileChange(e) {
+    let count = fileCount;
+    for (let i = 0; i < e.target.files.length; i++) {
+      count++;
+      e.target.files[i].key = e.target.files[i].name + count;
+    }
+
+    setFileCount(fileCount + count);
     setFiles(current => [...current, ...e.target.files]);
+    console.log(e.target.files);
   }
 
   // Make a fetch request to upload each new file
@@ -78,7 +86,7 @@ function FileSelect() {
       <div className="columns is-multiline">
         {files.map((f) =>
           <UploadBox
-            key={f.name}
+            key={f.key}
             file={f}
           />
         )}

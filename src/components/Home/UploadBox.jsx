@@ -21,27 +21,28 @@ function UploadBox(props) {
     if (props.file.size > 20000000) {
       setMessage('File is too large.');
       setFailure(true);
-      return false;
     }
 
     // Send fetch request
-    let formData = new FormData();
-    formData.append('upload', props.file);
-
-    fetch(`${baseUrl}/upload`, {
-      method: 'POST',
-      credentials: 'same-origin',
-      body: formData
-    }).then(response => response.json()
-    ).then(json => {
-      const fileUrl = baseUrl + json.fileUrl;
-      setMessage('Upload complete.');
-      setSuccess(true);
-      setUrl(fileUrl);
-    }).catch(error => {
-      setMessage('Upload failed.');
-      setFailure(true);
-    });
+    if (!false) {
+      let formData = new FormData();
+      formData.append('upload', props.file);
+  
+      fetch(`${baseUrl}/upload`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: formData
+      }).then(response => response.json()
+      ).then(json => {
+        const fileUrl = baseUrl + json.fileUrl;
+        setMessage('Upload complete.');
+        setSuccess(true);
+        setUrl(fileUrl);
+      }).catch(error => {
+        setMessage('Upload failed.');
+        setFailure(true);
+      });
+    }
   }, []);
 
   return (
@@ -85,7 +86,7 @@ function UploadBox(props) {
               aria-hidden="true"
               readOnly
               ref={urlRef}
-              value={fileUrl}
+              value={url}
             />
           </Fragment>
         }
