@@ -1,52 +1,65 @@
 import UploadBox from './UploadBox';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function FileSelect() {
+  const [fileCount, setFileCount] = useState(0);
+  const [files, setFiles] = useState([]);
+
+  // Add files to the state array
   function handleFileChange(e) {
-    console.log(e);
+    setFiles(current => [...current, ...e.target.files]);
   }
 
-  let [uploads, setUploads] = useState([
-    {
-      name: "abc.jpg",
-      isTooLarge: false,
-      failure: false,
-      success: false,
-      url: "https://12svsdvswvwv3.com"
-    },
-    {
-      name: "def.jpg",
-      isTooLarge: false,
-      failure: false,
-      success: false,
-      url: "https://12svsdvswvwv3.com"
-    }
-  ]);
+  // Make a fetch request to upload each new file
+/*  useEffect(() => {
+      const baseUrl = `${document.location.protocol}//${document.location.host}`;
+    files.forEach(file => {
+      // Size check
+      if (file.size > 20000000) {
+        updateUpload(
+          file.index,
+          {
+            ...uploads[file.index],
+            isTooLarge: true,
+            failure: true
+          }
+        );
+        return false;
+      }
 
-  // Add an upload to the state array
-  function addUpload(upload) {
-    setUploads(current => [...current, upload]);
-  }
+      // POST request
+      let formData = new FormData();
+      formData.append('upload', file);
 
-  // Update an upload in the state array
-  function updateUpload(index, newUpload) {
-    setUploads(current =>
-      current.map((upload, i) => {
-        if (i == index) {
-          return newUpload;
-        } else {
-          return upload;
-        }
-      })
-    );
-  }
-
-  useEffect(() => {
-    setTimeout(() => {
-      updateUpload(0, {...uploads[0], success: true});
-    }, 2000);
-  }, []);
-
+      fetch(`${baseUrl}/upload`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: formData
+      }).then(response => response.json()
+      ).then(json => {
+        // Success
+        const fileUrl = baseUrl + json.fileUrl;
+        updateUpload(
+          file.index,
+          {
+            ...uploads[file.index],
+            url: fileUrl,
+            success: true
+          }
+        );
+      }).catch(error => {
+        // Failure
+        updateUpload(
+          file.index,
+          {
+            ...uploads[file.index],
+            failure: true
+          }
+        );
+      });
+    });
+  }, uploads);
+*/
   return (
     <div id="file-select" className="container">
       {/* SELECT BUTTON */}
@@ -63,14 +76,10 @@ function FileSelect() {
 
       {/* UPLOAD BOXES */}
       <div className="columns is-multiline">
-        {uploads.map((u) =>
+        {files.map((f) =>
           <UploadBox
-            key={u.name}
-            name={u.name}
-            url={u.url}
-            isTooLarge={u.isTooLarge}
-            success={u.success}
-            failure={u.failure}
+            key={f.name}
+            file={f}
           />
         )}
       </div>
