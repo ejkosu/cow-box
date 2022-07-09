@@ -1,8 +1,11 @@
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const path = require('path');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const crypto = require('crypto');
+const db = require('./db/queries.js');
+const { nextTick } = require('process');
 
 const app = express();
 
@@ -10,7 +13,7 @@ const app = express();
 app.use(fileUpload({
     createParentPath: true,
     safeFileNames: true,
-    preserveExtension: 200
+    preserveExtension: 50
 }));
 app.use(cors());
 app.use(bodyParser.json());
@@ -33,60 +36,55 @@ app.get("/*", (_req, res) => {
 });
 
 // Upload route
-app.post("/upload", (req, res) => {
+app.post("/upload", async (req, res, next) => {
     try {
-        if (!req.files) {
-            res.status(400).send({
-                message: 'No file uploaded'
-            });
+        // Validation
+        if (!req.hasOwnProperty('files') || req.files.upload == undefined) {
+            return res.status(400).send('No file uploaded.');
         }
 
-        // Get file extension
+        const { name, size } = req.files.upload;
+        if (typeof(name) !== 'string' || name.length >= 59) {
+            return res.status(400).send('Invalid name.');
+        } else if (typeof(size) !== 'number' || size > 20000000) {
+            return res.status(400).send('File too large.');
+        }
+
+        // Get sanitized file extension
         let regex = /\.[0-9a-z\.]+$/i;
-        let extension = req.files.upload.name.match(regex);
-        console.log(`extension: ${extension}`);
+        let extension = name.match(regex)[0];
 
         // Check if blacklisted
         let blacklist = [".exe", ".jar", ".cpl", ".scr"];
         if (blacklist.includes(extension)) {
-            res.status(400).send({
-                message: 'Invalid file'
-            });
+            return res.status(400).send('File extension not allowed.');
         }
 
-        // Generate hash
-        let hash = getHash();
-        let newName = hash + extension;
-        console.log(`newName: ${newName}`);
+        // Replace filename with 12 random bytes, then insert record into DB
+        let newName = crypto.randomBytes(12).toString('hex') + extension;
+        try {
+            await db.insertUpload(newName, size);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).send('Error uploading file.');
+        }
 
-        // Save to disk
-        let file = req.files.upload;
-        file.mv('./uploads/' + newName);
-
+        // Insert file to disk
+        req.files.upload.mv('./uploads/' + newName);
         res.send({
             status: true,
             message: 'Success',
-            fileUrl: `${newName}`
+            newName: `${newName}`
         });
     } catch(error) {
-        res.status(500).send(error);
+        console.log(error);
+        return res.status(500).send('Error uploading file.');
     }
 });
 
-// Generate hash of length 8
-function getHash() {
-    let chars = '012345678901234567890123456789abcdefghijklmnopqrstuvwxyz';
-    let hash = '';
+const { COWBOX_PORT = 5000 } = process.env;
 
-    for (let i = 0; i < 10; i++) {
-        hash += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return hash;
-};
-
-const { PORT = 5000 } = process.env;
-
-app.listen(PORT, () => {
-    console.log('\n', `App running in port ${PORT}`, '\n');
-    console.log(`  > Local: \x1b[36mhttp://localhost:\x1b[1m${PORT}/\x1b[0m`);
+app.listen(COWBOX_PORT, () => {
+    console.log('\n', `App running in port ${COWBOX_PORT}`, '\n');
+    console.log(`  > Local: \x1b[36mhttp://localhost:\x1b[1m${COWBOX_PORT}/\x1b[0m`);
 });

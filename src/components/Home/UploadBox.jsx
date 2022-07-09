@@ -34,7 +34,7 @@ function UploadBox(props) {
         body: formData
       }).then(response => response.json()
       ).then(json => {
-        const fileUrl = baseUrl + "/" + json.fileUrl;
+        const fileUrl = baseUrl + "/" + json.newName;
         setMessage('Upload complete.');
         setSuccess(true);
         setUrl(fileUrl);
