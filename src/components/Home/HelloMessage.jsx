@@ -5,7 +5,7 @@ function HelloMessage() {
     <div id="hello" className="section">
       <div className="container">
         <p className="subtitle is-size-5 has-text-dark">
-          Files up to 20 MB are allowed. Please read the&nbsp;
+          Files up to 20 MiB are allowed. Please read the&nbsp;
           <NavLink to="/about">
             About page.
           </NavLink>

@@ -46,7 +46,7 @@ app.post("/upload", async (req, res, next) => {
         const { name, size } = req.files.upload;
         if (typeof(name) !== 'string' || name.length >= 59) {
             return res.status(400).send('Invalid name.');
-        } else if (typeof(size) !== 'number' || size > 20000000) {
+        } else if (typeof(size) !== 'number' || size > 20971520) {
             return res.status(400).send('File too large.');
         }
 
