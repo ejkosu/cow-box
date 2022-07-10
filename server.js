@@ -4,9 +4,9 @@ const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
-const db = require('./db/queries.js');
-const { nextTick } = require('process');
 const morgan = require('morgan');
+const rateLimit = require('./rateLimiter.js');
+const db = require('./db/queries.js');
 
 const app = express();
 
@@ -20,10 +20,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan('combined'));
+app.use('/upload', rateLimit.rateLimiter);
 
 // Routes
-app.use("/public", express.static(path.join(__dirname, "public")));
-app.use(express.static('uploads'))
+app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(express.static('uploads'));
 
 app.get("/about", (_req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
@@ -47,7 +48,7 @@ app.post("/upload", async (req, res, next) => {
 
         const { name, size } = req.files.upload;
         if (typeof(name) !== 'string' || name.length >= 59) {
-            return res.status(400).send('Invalid name.');
+            return res.status(400).send('Invalid file name.');
         } else if (typeof(size) !== 'number' || size > 20971520) {
             return res.status(400).send('File too large.');
         }
@@ -67,8 +68,9 @@ app.post("/upload", async (req, res, next) => {
         try {
             await db.insertUpload(newName, size);
         } catch (error) {
-            console.error(error);
-            return res.status(500).send('Error uploading file.');
+            error.status = 500;
+            error.message = 'Error uploading file.';
+            return next(error);
         }
 
         // Insert file to disk
@@ -79,9 +81,18 @@ app.post("/upload", async (req, res, next) => {
             newName: `${newName}`
         });
     } catch(error) {
-        console.log(error);
-        return res.status(500).send('Error uploading file.');
+        error.status = 500;
+        error.message = 'Error uploading file.';
+        return next(error);
     }
+});
+
+// Error handling middleware
+app.use((error, req, res, next) => {
+    console.error(error);
+    const status = error.status || 404;
+    const message = error.message || 'Invalid.';
+    res.status(status).send(message);
 });
 
 const { COWBOX_PORT = 5000 } = process.env;

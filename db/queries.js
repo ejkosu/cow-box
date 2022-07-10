@@ -15,7 +15,6 @@ async function insertUpload(name, size) {
             [name, size]
         );
     } catch (error) {
-        console.log(error);
         throw error;
     }
 };
