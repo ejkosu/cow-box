@@ -3,6 +3,7 @@
 @import "/node_modules/bulma/sass/utilities/initial-variables.sass";
 
 // Set custom initial variables
+$family-sans-serif: "Arial", sans-serif;
 $light: #f4f4f4;
 $primary: #00a199;
 $navbar-item-img-max-height: 5rem;
@@ -16,6 +17,16 @@ html {
     overflow-y: auto;
 }
 
+// Font for title
+@font-face {
+    font-family: 'Baloo 2';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+         url('/public/fonts/baloo-2-v14-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+         url('/public/fonts/baloo-2-v14-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+  
 // Navbar
 #nav-logo {
     height: 64px;
@@ -23,8 +34,9 @@ html {
 }
 
 #nav-title {
-    font-family: "Rye", sans-serif;
+    font-family: "Baloo 2", sans-serif;
     padding-left: 0;
+    vertical-align: center;
 }
 
 .navbar-item a {
