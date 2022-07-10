@@ -14,6 +14,10 @@ async function insertUpload(name, size) {
             'INSERT INTO uploads (name, size) VALUES ($1, $2) RETURNING *',
             [name, size]
         );
+        
+        if (!result.hasOwnProperty('rows') || !result.rows[0]) {
+            throw error;
+        }
     } catch (error) {
         throw error;
     }
