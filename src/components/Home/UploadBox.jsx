@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, Fragment } from 'react'
+import { useState, useEffect, useRef, Fragment } from 'react';
+import 'whatwg-fetch';
 
 function UploadBox(props) {
   const [message, setMessage] = useState('Uploading...');

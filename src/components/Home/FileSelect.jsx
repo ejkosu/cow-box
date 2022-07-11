@@ -5,7 +5,7 @@ function FileSelect() {
   const [fileCount, setFileCount] = useState(0);
   const [files, setFiles] = useState([]);
 
-  // Add files to the state array
+  // Add selected files to component state
   function handleFileChange(e) {
     let count = fileCount;
     for (let i = 0; i < e.target.files.length; i++) {
@@ -46,4 +46,4 @@ function FileSelect() {
   )
 }
   
-export default FileSelect
+export default FileSelect;
