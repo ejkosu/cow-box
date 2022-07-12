@@ -5,38 +5,43 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
 const morgan = require('morgan');
-const rateLimit = require('./rateLimiter.js');
-const db = require('./db/queries.js');
+const rateLimit = require(path.join(__dirname, 'rateLimiter.js'));
+const db = require(path.join(__dirname, 'db/queries.js'));
+const manifest = require(path.join(__dirname, 'dist/manifest.json'));
 
 const app = express();
+app.set('view engine', 'pug');
 
 // Middleware
-app.use(fileUpload({
-    createParentPath: true,
-    safeFileNames: true,
-    preserveExtension: 50
-}));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan('combined'));
 app.use('/upload', rateLimit.rateLimiter);
+app.use(fileUpload({
+    createParentPath: true,
+    safeFileNames: true,
+    preserveExtension: 50
+}));
 
-// Routes
+// Static Assets
 app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/bundles', express.static(path.join(__dirname, 'dist/bundles')));
 app.use(express.static('uploads'));
 
-app.get("/about", (_req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-app.get("/", (_req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-app.get("/*", (_req, res) => {
-    res.redirect("/");
-});
+// Render index.html for Prod or Dev
+if (process.env.NODE_ENV == "production") {
+    app.get(["/", "/about"], (_req, res) => {
+        res.render('index', {
+            jsBundle: `${manifest["src/main.jsx"]["file"]}`,
+            cssBundle: `${manifest["src/main.jsx"]["css"][0]}`
+        });
+    });
+} else {
+    app.get(["/", "/about"], (_req, res) => {
+        res.render('index');
+    });
+}
 
 // Upload route
 app.post("/upload", async (req, res, next) => {
@@ -73,7 +78,7 @@ app.post("/upload", async (req, res, next) => {
             return next(error);
         }
 
-        // Insert file to disk
+        // Move file to disk
         req.files.upload.mv('./uploads/' + newName);
         res.send({
             status: true,
