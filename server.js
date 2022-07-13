@@ -10,7 +10,10 @@ const db = require(path.join(__dirname, 'db/queries.js'));
 const manifest = require(path.join(__dirname, 'dist/manifest.json'));
 
 const app = express();
+
+// Pug
 app.set('view engine', 'pug');
+app.locals.basedir = path.join(__dirname, 'views');
 
 // Middleware
 app.use(cors());
@@ -79,7 +82,7 @@ app.post("/upload", async (req, res, next) => {
         }
 
         // Move file to disk
-        req.files.upload.mv('./uploads/' + newName);
+        req.files.upload.mv('/uploads/' + newName);
         res.send({
             status: true,
             message: 'Success',
