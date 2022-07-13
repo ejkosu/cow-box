@@ -15,7 +15,6 @@ function FileSelect() {
 
     setFileCount(fileCount + count);
     setFiles(current => [...current, ...e.target.files]);
-    console.log(e.target.files);
   }
 
   return (

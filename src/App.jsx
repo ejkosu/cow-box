@@ -8,8 +8,6 @@ import About from './components/About'
 import Home from './components/Home'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <div id="App">
       <Navbar />
