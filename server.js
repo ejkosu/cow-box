@@ -82,7 +82,7 @@ app.post("/upload", async (req, res, next) => {
         }
 
         // Move file to disk
-        req.files.upload.mv('/uploads/' + newName);
+        req.files.upload.mv(path.join(__dirname, `uploads/${newName}`));
         res.send({
             status: true,
             message: 'Success',
