@@ -19,7 +19,7 @@ function UploadBox(props) {
     const baseUrl = `${document.location.protocol}//${document.location.host}`;
 
     // Size check
-    if (props.file.size > 20000000) {
+    if (props.file.size > 20971520) {
       setMessage('File is too large.');
       setFailure(true);
     }
