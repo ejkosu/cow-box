@@ -55,7 +55,7 @@ app.post("/upload", async (req, res, next) => {
         }
 
         const { name, size } = req.files.upload;
-        if (typeof(name) !== 'string' || name.length >= 59) {
+        if (typeof(name) !== 'string') {
             return res.status(400).send('Invalid file name.');
         } else if (typeof(size) !== 'number' || size > 20971520) {
             return res.status(400).send('File too large.');
@@ -67,7 +67,7 @@ app.post("/upload", async (req, res, next) => {
 
         // Check if blacklisted
         let blacklist = [".exe", ".jar", ".cpl", ".scr"];
-        if (blacklist.includes(extension)) {
+        if (blacklist.includes(extension) || extension.length >= 59) {
             return res.status(400).send('File extension not allowed.');
         }
 
