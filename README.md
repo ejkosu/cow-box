@@ -27,6 +27,6 @@ Demo: [cow-box.net](https://cow-box.net)
 
 # Hosting (Linux)
 If you would like to host the app on a Linux server, an example configuration is below:
-1. Use Nginx as a reverse proxy. [This guide](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04#step-5-setting-up-nginx-as-a-reverse-proxy-server) is a good tutorial. If you are using Nginx, make sure to set `client_max_body_size 22M` in your server block to accomodate large uploads.
+1. Use Nginx as a reverse proxy. [This guide](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-node-js-application-for-production-on-ubuntu-16-04#step-5-setting-up-nginx-as-a-reverse-proxy-server) is a good tutorial. If you are using Nginx, make sure to set `client_max_body_size 22M` in your http block to accommodate large uploads.
 2. Use certbot to setup HTTPS. [This guide](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04) is a good tutorial.
 3. Use your init system to run the Express server. [This guide](https://expressjs.com/en/advanced/best-practice-performance.html#ensure-your-app-automatically-restarts) is a good tutorial and provides an example Systemd service. Using an init system or process manager to run the server is ideal, because it automatically restarts the app, starts the app on boot, and automatically sets environment variables.
