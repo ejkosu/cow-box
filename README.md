@@ -8,10 +8,10 @@ Demo: [cow-box.net](https://cow-box.net)
 
 # Installation
 1. Clone the git repository to your machine.
-2. Make sure you have the required dependencies instaled:
+2. Make sure you have the required dependencies installed:
     * [Node.js](https://nodejs.org/en/download), version >= 14.18.0.
     * [PostgreSQL](https://www.postgresql.org/download), version >= 10.
-3. Create a database in Postgres containing a single table as defined in [/db/definitions.sql](https://github.com/ejkosu/cow-box/blob/master/db/definitions.sql)
+3. Create a database in Postgres containing a single table as defined in [/db/definitions.sql](https://github.com/ejkosu/cow-box/blob/master/db/definitions.sql).
 4. Run `npm install` in the root directory of the repository.
 5. Replace the contact email in [About.jsx](https://github.com/ejkosu/cow-box/blob/master/src/components/About.jsx#L29) with your desired contact email.
 6. Run `npm run build` to build the minified production bundles.
